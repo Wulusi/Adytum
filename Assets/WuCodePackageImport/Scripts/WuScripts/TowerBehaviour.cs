@@ -62,6 +62,12 @@ public abstract class TowerBehaviour : MonoBehaviour
     [SerializeField]
     private GameObject projectilePrefab;
 
+    public bool is2DTower;
+    /// <summary>
+    /// This determines if the tower is within a 2d or 3d space
+    /// Set using towerParams sObj
+    /// </summary>
+
     //Private member varibales for helper functions
     private ObjectPooler objectPooler;
     private Vector3 targetDir;
@@ -103,6 +109,7 @@ public abstract class TowerBehaviour : MonoBehaviour
         rotationSpeed = towerParams._rotationSpeed;
         fireRate = towerParams._fireRate;
         projectilePrefab = towerParams._projectile;
+        is2DTower = towerParams._is2DTower;
     }
 
     //Main turret behaviour states, can be overriden in inherited members to perform customizable function
@@ -134,7 +141,11 @@ public abstract class TowerBehaviour : MonoBehaviour
                 {
                     //Debug.Log("Searching for target");
                     CurrentTarget = null;
-                    SearchTarget();
+
+                    if (!is2DTower)
+                        SearchTarget();
+                    else
+                        SeachTarget2D();
                 }
                 break;
             case TurretState.firingtarget:
@@ -192,6 +203,24 @@ public abstract class TowerBehaviour : MonoBehaviour
             targetDir = (Vector3)Random.insideUnitCircle - barrel.forward;
         }
         barrel.rotation = Quaternion.LookRotation(new Vector3(newDir.normalized.x, 0, newDir.normalized.z));
+    }
+
+    public virtual void SeachTarget2D()
+    {   
+        Debug.Log("Searching 2D Target");
+
+        Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, Mathf.Lerp(0, rotationSpeed, Time.deltaTime), 0.0f);
+
+        float angle = Vector2.Angle(barrel.right, new Vector3(targetDir.x, 0, targetDir.z));
+
+        if (angle < 0.1f || targetDir == Vector3.zero)
+        {
+            targetDir = (Vector3)Random.insideUnitCircle - barrel.forward;
+        }
+
+        Vector3 temp = new Vector3(newDir.normalized.x, 0, newDir.normalized.z);
+
+        barrel.rotation = Quaternion.LookRotation(temp, Vector3.forward);
     }
 
     public virtual void FireAtTarget()

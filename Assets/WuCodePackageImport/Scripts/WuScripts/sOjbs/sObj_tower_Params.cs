@@ -35,4 +35,8 @@ public class sObj_tower_Params : ScriptableObject
     [SerializeField]
     private GameObject projectile;
     public GameObject _projectile => projectile;
+
+    [SerializeField]
+    private bool is2DTower;
+    public bool _is2DTower => is2DTower;
 }

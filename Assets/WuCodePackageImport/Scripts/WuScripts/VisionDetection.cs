@@ -5,6 +5,7 @@ using UnityEngine;
 //Custom vision detection for towers
 public class VisionDetection : MonoBehaviour, PooledObjInterface
 {
+    [SerializeField]
     int layer_mask;
     public TowerBehaviour owner;
 
@@ -47,6 +48,8 @@ public class VisionDetection : MonoBehaviour, PooledObjInterface
         //Using Overlap Sphere as a detection radius on the target layermask 
         //with enemies to detect if there are enemies around the tower
         //this returns an array of game Objects colliders marked as enemies
+        Debug.Log("Detecting Targets");
+
         Collider[] colliders = Physics.OverlapSphere(owner.transform.position, tower_Params._detectionRadius, layer_mask);
 
         //Reference to the owner Towerbehaviour script
