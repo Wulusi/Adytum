@@ -71,6 +71,7 @@ public abstract class TowerBehaviour : MonoBehaviour
     //Private member varibales for helper functions
     private ObjectPooler objectPooler;
     private Vector3 targetDir;
+    private Quaternion targetDir2D;
     private bool routineActive;
 
     public virtual void Awake()
@@ -88,6 +89,15 @@ public abstract class TowerBehaviour : MonoBehaviour
 
         //Reference to the ObjectPooler so Tower can spawn necessary instance of prefabs such as bullets
         objectPooler = ObjectPooler.Instance;
+
+        if (!is2DTower)
+        {
+            targetDir = (Vector3)Random.insideUnitCircle - barrel.forward;
+        }
+        else
+        {
+            targetDir2D = Quaternion.Euler(0, 0, Random.Range(0, 360));
+        }
     }
 
     //Main coroutine loop, runs in while true continously instead of update
@@ -122,7 +132,10 @@ public abstract class TowerBehaviour : MonoBehaviour
 
                 if (targets.Count != 0)
                 {
-                    LookAtTarget();
+                    if (!is2DTower)
+                        LookAtTarget();
+                    else
+                        LookAtTarget2D();
 
                     if (CurrentTarget)
                     {
@@ -192,6 +205,28 @@ public abstract class TowerBehaviour : MonoBehaviour
         }
     }
 
+    public virtual void LookAtTarget2D()
+    {
+        CheckTarget();
+        if (CurrentTarget && targets.Count > 0)
+        {
+            Vector3 targetDir = CurrentTarget.transform.position - barrel.transform.position;
+            Vector3 RotatedTarget = Quaternion.Euler(0, 0, 90) * targetDir;
+            CurrentTarget = targets[0];
+
+            Vector3 newDir = Vector3.RotateTowards(barrel.forward, RotatedTarget, rotationSpeed * 0.01f * Time.deltaTime, 0f);
+            barrel.rotation = Quaternion.LookRotation(barrel.forward, newDir.normalized);
+
+            //barrel.rotation = Quaternion.Slerp(barrel.forward, newDir.normalized, rotationSpeed * Time.deltaTime);
+
+            Debug.Log("2d target acquired");
+        }
+        else
+        {
+            turretState = TurretState.searching;
+        }
+    }
+
     public virtual void SearchTarget()
     {
         Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, Mathf.Lerp(0, rotationSpeed, Time.deltaTime), 0.0f);
@@ -206,27 +241,32 @@ public abstract class TowerBehaviour : MonoBehaviour
     }
 
     public virtual void SeachTarget2D()
-    {   
-        Debug.Log("Searching 2D Target");
+    {
+        //Debug.Log("Searching 2D Target");
 
-        Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, Mathf.Lerp(0, rotationSpeed, Time.deltaTime), 0.0f);
+        //Vector3 newDir = Vector3.RotateTowards(barrel.forward, targetDir, Mathf.Lerp(0, rotationSpeed, Time.deltaTime), 0.0f)
 
-        float angle = Vector2.Angle(barrel.right, new Vector3(targetDir.x, 0, targetDir.z));
+        float angle = Quaternion.Angle(barrel.rotation, targetDir2D);
 
-        if (angle < 0.1f || targetDir == Vector3.zero)
+        //Debug.Log("Angle" + angle);
+        if (angle < 0.1f)
         {
-            targetDir = (Vector3)Random.insideUnitCircle - barrel.forward;
+            targetDir2D = Quaternion.Euler(0, 0, Random.Range(0, 360));
+            //Debug.Log("Target Dir" + targetDir);
         }
 
-        Vector3 temp = new Vector3(newDir.normalized.x, 0, newDir.normalized.z);
-
-        barrel.rotation = Quaternion.LookRotation(temp, Vector3.forward);
+        barrel.rotation = Quaternion.RotateTowards(barrel.rotation,
+                  targetDir2D,
+                  rotationSpeed * 10f * Time.deltaTime);
     }
 
     public virtual void FireAtTarget()
     {
         //Rotate target at the same time when firing at the target as well
-        LookAtTarget();
+        if (!is2DTower)
+            LookAtTarget();
+        else
+            LookAtTarget2D();
 
         //Invoke custom event with a custom duration delay that counts up
         CoolDown(fireRate, fireAtTarget);

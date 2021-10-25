@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3882ac160df63cf4f83c09fa3f18d965, type: 3}
   m_Name: TowerParamsType1
   m_EditorClassIdentifier: 
-  rotationSpeed: 5
+  rotationSpeed: 1
   fireRate: 0.5
-  detectionRadius: 15
+  detectionRadius: 2
   projectile: {fileID: 6157577308675619926, guid: 5d700b6b825773645a56bd5a221bc9ca, type: 3}
-  is2DTower: 0
+  is2DTower: 1
