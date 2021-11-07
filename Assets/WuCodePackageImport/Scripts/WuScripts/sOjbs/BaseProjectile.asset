@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6f7786607c4e1d4a896de9b9d83f80c, type: 3}
   m_Name: BaseProjectile
   m_EditorClassIdentifier: 
-  enemyLayer: 30
+  enemyLayer: 6
   damageValue: 2
   projectileSpeed: 1200
   projectileLifetime: 1
-  projectile: {fileID: 3481670268479021605, guid: 5569fe04289321e4b8e208137c76bf8f,
-    type: 3}
+  projectile: {fileID: 6157577308675619926, guid: 5d700b6b825773645a56bd5a221bc9ca, type: 3}

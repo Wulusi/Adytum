@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bf8a1a4ede342447b31e7c37dede57a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layer_mask: 6
   owner: {fileID: 0}
   tower_Params: {fileID: 11400000, guid: dbd5b010119967e46b7bf23fc19deda0, type: 2}
 --- !u!1 &5944019703304864220
@@ -223,6 +224,7 @@ GameObject:
   - component: {fileID: 500871464080465560}
   - component: {fileID: 4640069265386155374}
   - component: {fileID: 3854289036753037020}
+  - component: {fileID: 88092757}
   m_Layer: 0
   m_Name: TowerBody
   m_TagString: Untagged
@@ -317,8 +319,41 @@ MonoBehaviour:
   barrel: {fileID: 3934182227108264941}
   fireAtTarget:
     m_PersistentCalls:
-      m_Calls: []
-  rotationSpeed: 0
-  fireRate: 0
+      m_Calls:
+      - m_Target: {fileID: 3854289036753037020}
+        m_TargetAssemblyTypeName: TowerBehaviour, Assembly-CSharp
+        m_MethodName: TestFire
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  rotationSpeed: 2
+  fireRate: 3
   projectilePrefab: {fileID: 0}
   is2DTower: 0
+--- !u!50 &88092757
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6843242695979148264}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
