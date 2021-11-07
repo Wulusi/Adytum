@@ -14,12 +14,13 @@ public class Worker : Unit
     damage = 1;
     detection_radius = 50f;
     attack_range = 1;
-}
+    type = unit_type.WORKER;
+    }
 
     // Update is called once per frame
     void Update()
     {
-        current_target = FindTarget();
+        current_target = FindTarget(unit_type.RESOURCE);
         MoveToTarget(current_target);
     }
 }

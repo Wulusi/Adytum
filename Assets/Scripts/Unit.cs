@@ -10,21 +10,13 @@ public class Unit : MonoBehaviour
     public int damage;
     public float detection_radius;
     public float attack_range;
-
+    public enum unit_type { RESOURCE, ENEMY, SOLDIER, WORKER};
+    public unit_type type;
+    
+    private float nearest_target_distance = Mathf.Infinity;
+    private float distance;
     private GameObject target;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //private Vector3 offset_vector = new Vector3(0.2f, 0.2f, 0);
 
     public virtual void MoveToTarget(GameObject target)
     {
@@ -37,23 +29,28 @@ public class Unit : MonoBehaviour
 
     }
 
-    public virtual GameObject FindTarget()
+    public virtual GameObject FindTarget(unit_type target_type)
     {
         Collider2D[] hit_colliders = Physics2D.OverlapCircleAll(this.transform.position, detection_radius);
-        float nearest_target_distance = Mathf.Infinity;
-        float distance;
+
+
 
         for (int i = 0; i < hit_colliders.Length; i++)
         {
-            distance = Vector2.Distance(hit_colliders[i].GetComponentInParent<Transform>().position, this.transform.position);
-            if (distance < nearest_target_distance)
+            if (hit_colliders[i].gameObject.GetComponent<Unit>().type == target_type)
             {
-                nearest_target_distance = distance;
-                target = hit_colliders[i].gameObject;
-                Debug.Log("Current target = " + target);
+                distance = Vector2.Distance(hit_colliders[i].GetComponentInParent<Transform>().position, this.transform.position);
+                if (distance < nearest_target_distance)
+                {
+                    nearest_target_distance = distance;
+                    target = hit_colliders[i].gameObject;
+                    Debug.Log("Current target = " + target);
+                }
             }
         }
-
+        
         return target;
+        
+
     }
 }
