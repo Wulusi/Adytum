@@ -141,9 +141,9 @@ public abstract class TowerBehaviour : MonoBehaviour
                     {
                         //Debug.Log("Target Acquired");
                         Vector3 Dir = (CurrentTarget.transform.position - barrel.transform.position);
-                        float angle = Vector3.Angle(Dir, barrel.transform.forward);
+                        float angle = Vector2.Angle(Dir, barrel.transform.position);
 
-                        //Debug.Log("angle is " + angle);
+                        Debug.Log("angle is " + angle);
                         if (angle <= 5)
                         {
                             turretState = TurretState.firingtarget;
