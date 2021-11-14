@@ -16,13 +16,17 @@ public class Unit : MonoBehaviour
     private float nearest_target_distance = Mathf.Infinity;
     private float distance;
     private GameObject target;
-    //private Vector3 offset_vector = new Vector3(0.2f, 0.2f, 0);
+    private Vector3 offset_vector = new Vector3(0.2f, -0.2f, 0);
 
 
     public virtual void MoveToTarget(GameObject target)
     {
         float step = movement_speed * Time.deltaTime;
-        this.transform.position = Vector2.MoveTowards(this.transform.position, target.transform.position, step);
+        if (target != null)
+        {
+            this.transform.position = Vector2.MoveTowards(this.transform.position, target.transform.position + offset_vector, step);
+        }
+
     }
     public virtual void Attack(GameObject target)
     {
@@ -33,22 +37,20 @@ public class Unit : MonoBehaviour
     {
         Collider2D[] hit_colliders = Physics2D.OverlapCircleAll(this.transform.position, detection_radius);
 
-
-
-        for (int i = 0; i < hit_colliders.Length; i++)
-        {
-            if (hit_colliders[i].gameObject.GetComponent<Unit>().type == target_type)
+            for (int i = 0; i < hit_colliders.Length; i++)
             {
-                distance = Vector2.Distance(hit_colliders[i].GetComponentInParent<Transform>().position, this.transform.position);
-                if (distance < nearest_target_distance)
+                if (hit_colliders[i].gameObject.GetComponent<Unit>().type == target_type)
                 {
-                    nearest_target_distance = distance;
-                    target = hit_colliders[i].gameObject;
-                    Debug.Log("Current target = " + target);
+                    distance = Vector2.Distance(hit_colliders[i].GetComponentInParent<Transform>().position, this.transform.position);
+                    if (distance < nearest_target_distance)
+                    {
+                        nearest_target_distance = distance;
+                        target = hit_colliders[i].gameObject;
+                        Debug.Log("Current target = " + target);
+                    }
                 }
             }
-        }
-        
+       
         return target;
         
 
