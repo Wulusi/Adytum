@@ -10,7 +10,7 @@ public class Unit : MonoBehaviour
     public int damage;
     public float detection_radius;
     public float attack_range;
-    public enum unit_type { RESOURCE, ENEMY, SOLDIER, WORKER};
+    public enum unit_type {RESOURCE, ENEMY, SOLDIER, WORKER};
     public unit_type type;
     
     private float nearest_target_distance = Mathf.Infinity;
@@ -18,12 +18,12 @@ public class Unit : MonoBehaviour
     private GameObject target;
     //private Vector3 offset_vector = new Vector3(0.2f, 0.2f, 0);
 
+
     public virtual void MoveToTarget(GameObject target)
     {
         float step = movement_speed * Time.deltaTime;
         this.transform.position = Vector2.MoveTowards(this.transform.position, target.transform.position, step);
     }
-
     public virtual void Attack(GameObject target)
     {
 
