@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Soldier : Unit
 {
+    public GameObject current_target;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +20,8 @@ public class Soldier : Unit
     // Update is called once per frame
     void Update()
     {
-        
+        current_target = FindTarget(unit_type.RESOURCE);
+        MoveToTarget(current_target);
+        Attack(current_target);
     }
 }

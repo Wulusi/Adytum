@@ -20,7 +20,11 @@ public class Worker : Unit
     // Update is called once per frame
     void Update()
     {
-        current_target = FindTarget(unit_type.RESOURCE);
+        if (current_target == null)
+        {
+            current_target = FindTarget(unit_type.RESOURCE);
+        }
         MoveToTarget(current_target);
+        Attack(current_target);
     }
 }
