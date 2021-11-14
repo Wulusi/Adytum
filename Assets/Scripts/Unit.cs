@@ -62,13 +62,12 @@ public class Unit : MonoBehaviour
                     if (distance < nearest_target_distance)
                     {
                         nearest_target_distance = distance;
-                        target = hit_colliders[i].gameObject;
-                        return target;
+                        target = hit_colliders[i].gameObject;                      
                     }
                 }
             }
        
-        return null;
+        return target;
         
 
     }
