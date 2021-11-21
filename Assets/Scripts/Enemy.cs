@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Soldier : Unit
+public class Enemy : Unit
 {
     public GameObject current_target;
 
@@ -14,13 +14,13 @@ public class Soldier : Unit
         damage = 5;
         detection_radius = 50f;
         attack_range = 1f;
-        type = unit_type.SOLDIER;
+        type = unit_type.ENEMY;
     }
 
     // Update is called once per frame
     void Update()
     {
-        current_target = FindTarget(unit_type.ENEMY);
+        current_target = FindTarget(unit_type.SOLDIER);
         MoveToTarget(current_target);
         Attack(current_target);
     }
