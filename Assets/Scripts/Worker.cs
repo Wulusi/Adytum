@@ -13,7 +13,7 @@ public class Worker : Unit
     movement_speed = 5;
     damage = 1;
     detection_radius = 50f;
-    attack_range = 1;
+    attack_range = 1f;
     type = unit_type.WORKER;
     }
 

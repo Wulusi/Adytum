@@ -17,16 +17,21 @@ public class Unit : MonoBehaviour
     private float nearest_target_distance = Mathf.Infinity;
     private float distance;
     private GameObject target;
-    private Vector3 offset_vector = new Vector3(0.2f, -0.2f, 0);
+    //private Vector3 offset_vector = new Vector3(0.2f, -0.2f, 0);
     private float attack_cooldown = 2.0f;
     private float time_stamp = 0f;
 
     public virtual void MoveToTarget(GameObject target)
     {
         float step = movement_speed * Time.deltaTime;
+        
         if (target != null)
         {
-            this.transform.position = Vector2.MoveTowards(this.transform.position, target.transform.position + offset_vector, step);
+            distance = Vector2.Distance(target.GetComponentInParent<Transform>().position, this.transform.position);
+            if (distance > attack_range)
+            {
+                this.transform.position = Vector2.MoveTowards(this.transform.position, target.transform.position, step);
+            }
         }
 
     }
@@ -71,6 +76,7 @@ public class Unit : MonoBehaviour
         
 
     }
+
 
     public virtual void DestroyTarget(GameObject target)
     {

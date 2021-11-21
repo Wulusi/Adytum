@@ -20,7 +20,10 @@ public class Soldier : Unit
     // Update is called once per frame
     void Update()
     {
-        current_target = FindTarget(unit_type.ENEMY);
+        if (current_target == null)
+        {
+            current_target = FindTarget(unit_type.ENEMY);
+        }
         MoveToTarget(current_target);
         Attack(current_target);
     }
