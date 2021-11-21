@@ -11,7 +11,7 @@ public class Unit : MonoBehaviour
     public int damage;
     public float detection_radius;
     public float attack_range;
-    public enum unit_type { RESOURCE, ENEMY, SOLDIER, WORKER };
+    public enum unit_type { RESOURCE, ENEMY, SOLDIER, WORKER, BUILDING };
     public unit_type type;
     
     private float nearest_target_distance = Mathf.Infinity;

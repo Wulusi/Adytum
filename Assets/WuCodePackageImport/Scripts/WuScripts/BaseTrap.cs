@@ -7,6 +7,7 @@ public class BaseTrap : MonoBehaviour
     public enum TrapType { Slow, Damage, Blockage }
     public TrapType trapType;
 
+    public float trapRadius;
     public int slowTimer;
     public int trapDamage;
     // Start is called before the first frame update
@@ -27,6 +28,7 @@ public class BaseTrap : MonoBehaviour
         //Then the trigger should activate the trap
         if (Object.GetComponent<Unit>() != null)
         {
+            Debug.Log("Trap Activated!");
             ActivateTrap(Object.gameObject);
             //ActivateTrap(Object);
         }
@@ -35,24 +37,24 @@ public class BaseTrap : MonoBehaviour
     private void ActivateTrap(GameObject Target)
     {
         //Only interact with the target if it is an enemy unity type
-        if (Target.GetComponent<Unit>().type == Unit.unit_type.ENEMY)
+        Unit TargetUnit = Target.GetComponent<Unit>();
+        if (TargetUnit.type == Unit.unit_type.ENEMY)
         {
             //Based on the trap apply different logic to the target
             switch (trapType)
             {
                 case TrapType.Blockage:
 
-                    Rigidbody2D TargetRB = Target.GetComponent<Rigidbody2D>();
-                    if (TargetRB != null)
+                    //Rigidbody2D TargetRB = Target.GetComponent<Rigidbody2D>();
+                    if (TargetUnit != null)
                     {
                         //Save the target's current speed
-                        Vector2 TargetSpd = TargetRB.velocity;
+                        float TargetSpd = TargetUnit.movement_speed;
                         //Stop the target
-                        TargetRB.velocity = Vector2.zero;
+                        TargetUnit.movement_speed = 0;
                         //Wait for X seconds based onthe slow Timer
-                        StartCoroutine(CountDown(slowTimer));
                         //Then put the target back to its current speed
-                        TargetRB.velocity = TargetSpd;
+                        StartCoroutine(CountDown(slowTimer, TargetUnit, TargetSpd));
                     }
                     break;
 
@@ -68,24 +70,22 @@ public class BaseTrap : MonoBehaviour
 
                 case TrapType.Slow:
 
-                    Rigidbody2D TargetRB2 = Target.GetComponent<Rigidbody2D>();
-                    if (TargetRB2 != null)
+                    if (TargetUnit != null)
                     {
                         //Save the target's current speed
-                        Vector2 TargetSpd = TargetRB2.velocity;
-                        //Slow the target by 66% or another number we see fit
-                        TargetRB2.velocity = TargetSpd * 0.3f;
+                        float TargetSpd = TargetUnit.movement_speed;
+                        //Slow the target up to 30% of its original speed
+                        TargetUnit.movement_speed = 0.3f * TargetUnit.movement_speed;
                         //Wait for X seconds based onthe slow Timer
-                        StartCoroutine(CountDown(slowTimer));
                         //Then put the target back to its current speed
-                        TargetRB2.velocity = TargetSpd;
+                        StartCoroutine(CountDown(slowTimer, TargetUnit, TargetSpd));
                     }
                     break;
             }
         }
     }
 
-    private IEnumerator CountDown(float duration)
+    private IEnumerator CountDown(float duration, Unit TargetUnit, float speed)
     {
         float totalTime = 0;
         while (totalTime <= duration)
@@ -95,6 +95,23 @@ public class BaseTrap : MonoBehaviour
             totalTime += Time.deltaTime;
             yield return null;
         }
+        //Reset the target unit's speed
+        TargetUnit.movement_speed = speed;
     }
 
+    private void OnDrawGizmos()
+    {
+        float radius = this.gameObject.GetComponent<CircleCollider2D>().radius;
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, radius * 1.3f);
+    }
+
+    private void OnValidate()
+    {
+        if (this.gameObject.GetComponent<CircleCollider2D>() != null)
+        {
+            this.gameObject.GetComponent<CircleCollider2D>().radius = trapRadius;
+        }
+    }
 }
