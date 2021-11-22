@@ -104,7 +104,7 @@ public class BaseTrap : MonoBehaviour
         float radius = this.gameObject.GetComponent<CircleCollider2D>().radius;
 
         Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(transform.position, radius * 1.3f);
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 
     private void OnValidate()

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 1
   fireRate: 0.5
-  detectionRadius: 2
+  detectionRadius: 18
   projectile: {fileID: 6157577308675619926, guid: 5d700b6b825773645a56bd5a221bc9ca, type: 3}
   is2DTower: 1

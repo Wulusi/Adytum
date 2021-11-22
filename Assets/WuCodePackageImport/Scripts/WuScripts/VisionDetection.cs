@@ -12,6 +12,9 @@ public class VisionDetection : MonoBehaviour, PooledObjInterface
     [SerializeField]
     sObj_tower_Params tower_Params;
 
+    private Collider2D[] colliders2D;
+    private Collider[] colliders;
+
     public void OnEnable()
     {
         owner = GetComponentInParent<TowerBehaviour>();
@@ -38,7 +41,14 @@ public class VisionDetection : MonoBehaviour, PooledObjInterface
     {
         while (true)
         {
-            DetectionRange();
+            if (!tower_Params._is2DTower)
+            {
+                DetectionRange();
+            }
+            else
+            {
+                DetectionRange2D();
+            }
             yield return null;
         }
     }
@@ -50,7 +60,7 @@ public class VisionDetection : MonoBehaviour, PooledObjInterface
         //this returns an array of game Objects colliders marked as enemies
         Debug.Log("Detecting Targets");
 
-        Collider[] colliders = Physics.OverlapSphere(owner.transform.position, tower_Params._detectionRadius, layer_mask);
+        colliders = Physics.OverlapSphere(owner.transform.position, tower_Params._detectionRadius, layer_mask);
 
         //Reference to the owner Towerbehaviour script
         var ownerList = owner.targets;
@@ -72,6 +82,46 @@ public class VisionDetection : MonoBehaviour, PooledObjInterface
         for (int i = 0; i <= colliders.Length; i++)
         {
             if (colliders.Length != ownerList.Count)
+            {
+                if (ownerList.Count == 1)
+                {
+                    owner.GetComponent<TowerBehaviour>().CurrentTarget = null;
+                    ownerList.RemoveAt(i);
+                }
+                else
+                {
+                    ownerList.RemoveAt(i);
+                }
+            }
+        }
+    }
+
+    void DetectionRange2D()
+    {
+        //Debug.Log("Detecting Targets");
+
+        colliders2D = Physics2D.OverlapCircleAll(owner.transform.position, tower_Params._detectionRadius, layer_mask);
+
+        //Reference to the owner Towerbehaviour script
+        var ownerList = owner.targets;
+
+        //Add all elements detected to a reference list in the parent tower object
+        foreach (Collider2D detected in colliders2D)
+        {
+            if (!ownerList.Contains(detected.gameObject))
+            {
+                ownerList.Add(detected.gameObject);
+            }
+        }
+
+        //If there is a change in the number of gameObjects detected in the
+        //array of target colliders versus the list that's in the parent
+        //then this means that either a target has been destroy by the current tower or by a neighboring tower
+        //remove the destroyed target from the tracking list on the parent towerbehaviour script, if the list only
+        //have 1 item left in it 
+        for (int i = 0; i <= colliders2D.Length; i++)
+        {
+            if (colliders2D.Length != ownerList.Count)
             {
                 if (ownerList.Count == 1)
                 {

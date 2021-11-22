@@ -73,6 +73,7 @@ public abstract class TowerBehaviour : MonoBehaviour
     private Vector3 targetDir;
     private Quaternion targetDir2D;
     private bool routineActive;
+    private float DebugDrawRadius;
 
     public virtual void Awake()
     {
@@ -143,8 +144,8 @@ public abstract class TowerBehaviour : MonoBehaviour
                         Vector3 Dir = (CurrentTarget.transform.position - barrel.transform.position);
                         float angle = Vector2.Angle(Dir, barrel.transform.position);
 
-                        Debug.Log("angle is " + angle);
-                        if (angle <= 5)
+                        //Debug.Log("angle is " + angle);
+                        //if (angle <= 5)
                         {
                             turretState = TurretState.firingtarget;
                         }
@@ -219,7 +220,7 @@ public abstract class TowerBehaviour : MonoBehaviour
 
             //barrel.rotation = Quaternion.Slerp(barrel.forward, newDir.normalized, rotationSpeed * Time.deltaTime);
 
-            Debug.Log("2d target acquired");
+            //Debug.Log("2d target acquired");
         }
         else
         {
@@ -299,6 +300,22 @@ public abstract class TowerBehaviour : MonoBehaviour
             }
             routineActive = false;
             eventToInvoke?.Invoke();
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        DebugDrawRadius = towerParams._detectionRadius;
+
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, DebugDrawRadius);
+    }
+
+    private void OnValidate()
+    {
+        if (towerParams != null)
+        {
+            DebugDrawRadius = towerParams._detectionRadius;
         }
     }
 }
