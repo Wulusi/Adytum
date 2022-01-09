@@ -50,7 +50,7 @@ public class MouseHoverBuild : MonoBehaviour
                     (TowerBase.name, 
                     this.transform.position, 
                     transform.rotation);
-                m_spriteRenderer.color = m_OriginalColor;
+                m_spriteRenderer.enabled = false;
                 canBuild = false;
                 canHover = false;
                 yield return null;
