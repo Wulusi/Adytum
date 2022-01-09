@@ -63,7 +63,9 @@ public class Unit : MonoBehaviour
 
             for (int i = 0; i < hit_colliders.Length; i++)
             {
-                if (hit_colliders[i].gameObject.GetComponent<Unit>().type == target_type)
+                Unit targetUnit = hit_colliders[i].gameObject.GetComponent<Unit>();
+
+                if (targetUnit != null && targetUnit.type == target_type)
                 {
                     distance = Vector2.Distance(hit_colliders[i].GetComponentInParent<Transform>().position, this.transform.position);
                     if (distance < nearest_target_distance)

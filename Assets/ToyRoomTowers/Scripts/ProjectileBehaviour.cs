@@ -7,6 +7,9 @@ using UnityEngine;
 public class ProjectileBehaviour : MonoBehaviour
 {
     [SerializeField]
+    private GameObject floatingTextPrefab;
+    
+    [SerializeField]
     private sObj_projectile_Params projectileParams;
 
     /// <summary>
@@ -114,13 +117,16 @@ public class ProjectileBehaviour : MonoBehaviour
     {
         MoveProjectile();
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log(this.gameObject.name + " Hit " + other.gameObject.name);
+
         if (other.gameObject.layer == enemyLayer)
         {
             //Damage the enemy the projectile just hit
             //other.GetComponent<EnemyBehaviour>().LoseHP(damageValue);
+            ShowDamage(damageValue.ToString(), other.transform.root.position);
+            other.GetComponentInParent<Unit>().unit_health -= (int)damageValue;
 
             //Tell the task cancellation token to cancel the delay task in KillProjectile because we're going to kill the projectile early
             killCancel.Cancel();
@@ -128,6 +134,14 @@ public class ProjectileBehaviour : MonoBehaviour
             //Instead of destroy send projectile back into Object Pool                   
             this.gameObject.SetActive(false);
         }
+    }
 
+    private void ShowDamage(string text, Vector2 position)
+    {
+        if (floatingTextPrefab)
+        {
+            GameObject prefab = Instantiate(floatingTextPrefab, position, Quaternion.identity);
+            prefab.GetComponentInChildren<TextMesh>().text = text;
+        }
     }
 }

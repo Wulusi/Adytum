@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
 
     private float finalSpawnCount;
 
+    [SerializeField]
+    private LevelManager levelManager;
+
     // Start is called before the first frame update
     void Start()
     {
