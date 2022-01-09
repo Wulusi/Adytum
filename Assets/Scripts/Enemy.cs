@@ -23,8 +23,14 @@ public class Enemy : Unit
         if (current_target == null)
         {
             current_target = FindTarget(unit_type.SOLDIER);
+            if (current_target == null)
+            {
+                FindTarget(unit_type.BUILDING);
+            }
         }
+
         MoveToTarget(current_target);
         Attack(current_target);
+
     }
 }
