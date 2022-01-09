@@ -20,6 +20,7 @@ public class Unit : MonoBehaviour
     //private Vector3 offset_vector = new Vector3(0.2f, -0.2f, 0);
     private float attack_cooldown = 2.0f;
     private float time_stamp = 0f;
+    [SerializeField] private GameObject floatingTextPrefab;
 
     public virtual void MoveToTarget(GameObject target)
     {
@@ -45,6 +46,7 @@ public class Unit : MonoBehaviour
                 Debug.Log("Going to attack");
                 if (time_stamp <= Time.time)
                 {
+                    ShowDamage(damage.ToString(), target.GetComponentInParent<Transform>().position);
                     target.GetComponentInParent<Unit>().unit_health -= damage;
                     Debug.Log("Deal Damage!");
                     //Debug.Log("Current Health: " + target.GetComponentInParent<Unit>().unit_health);
@@ -84,6 +86,15 @@ public class Unit : MonoBehaviour
         {
             Destroy(target);
             nearest_target_distance = Mathf.Infinity;
+        }
+    }
+
+    private void ShowDamage(string text, Vector2 position)
+    {
+        if (floatingTextPrefab)
+        {
+            GameObject prefab = Instantiate(floatingTextPrefab, position, Quaternion.identity);
+            prefab.GetComponentInChildren<TextMesh>().text = text;
         }
     }
 }

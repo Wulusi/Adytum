@@ -104,6 +104,7 @@ MonoBehaviour:
   detection_radius: 0
   attack_range: 0
   type: 0
+  floatingTextPrefab: {fileID: 2518827367560455120, guid: 9543cc017f6140943bab40b3f7521769, type: 3}
   current_target: {fileID: 0}
 --- !u!50 &-3137805597028992580
 Rigidbody2D:
