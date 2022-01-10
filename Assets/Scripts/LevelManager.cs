@@ -7,8 +7,6 @@ using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
-    public enum phase { GATHER, ATTACK };
-
     public GameObject GameEndScreen;
 
     [SerializeField]
@@ -60,7 +58,7 @@ public class LevelManager : MonoBehaviour
         {
             GameLevelPhase phase = gamePhases[i];
 
-            phaseName.text = phase.phaseName.ToString();
+            phaseName.text = phase.phaseName.ToString() + " " + phase.currentPhase;
             phase.setTimer(timer);
 
             _myTasks.Add(phase.WaitForTimerToEnd());

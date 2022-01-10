@@ -1763,5 +1763,9 @@ PrefabInstance:
       propertyPath: _phaseName
       value: Phase 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8403987130747896079, guid: f425ef1a077116345bbd02853c9cc03f, type: 3}
+      propertyPath: currentPhase
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f425ef1a077116345bbd02853c9cc03f, type: 3}

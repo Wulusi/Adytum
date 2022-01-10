@@ -7,6 +7,9 @@ using TMPro;
 
 public class GameLevelPhase : MonoBehaviour
 {
+    public enum phase { GATHER, ATTACK };
+    public phase currentPhase;
+
     [SerializeField]
     private string _phaseName;
     public string phaseName => _phaseName;
@@ -36,7 +39,7 @@ public class GameLevelPhase : MonoBehaviour
     public async Task WaitForTimerToEnd()
     {
         var end = Time.time + duration;
-        //Debug.Log("Timer Started!!");
+        Debug.Log("Timer Started!! Current Phase is {0} " + currentPhase.ToString());
         while (Time.time < end)
         {
             //Put the timer here on the screen and the phase name
