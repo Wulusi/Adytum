@@ -27,7 +27,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameOver.SetActive(false);
+        if (GameOver != null)
+        {
+            GameOver.SetActive(false);
+        }
         CurrentHealth = MaxHealth;
         StartCoroutine(CheckState());
     }
@@ -44,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckGameState()
     {
-        if (CurrentHealth <= 0)
+        if (CurrentHealth <= 0 && GameOver != null)
         {
             GameOver.SetActive(true);
         }
@@ -52,7 +55,10 @@ public class GameManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        Health.text = CurrentHealth.ToString();
+        if (Health != null)
+        {
+            Health.text = CurrentHealth.ToString();
+        }
     }
 
     public void ReloadLevel()

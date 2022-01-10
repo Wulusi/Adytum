@@ -9,12 +9,13 @@ public class GameLevelPhase : MonoBehaviour
 {
     [SerializeField]
     private string _phaseName;
+    public string phaseName => _phaseName;
 
     [SerializeField]
     private float duration;
 
     [SerializeField]
-    private TextMeshPro timer;
+    private TextMeshProUGUI timer;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,15 +28,24 @@ public class GameLevelPhase : MonoBehaviour
         
     }
 
+    public void setTimer(TextMeshProUGUI timerToSet) 
+    {
+        timer = timerToSet;
+    }
+
     public async Task WaitForTimerToEnd()
     {
         var end = Time.time + duration;
-        while(Time.time < end)
+        //Debug.Log("Timer Started!!");
+        while (Time.time < end)
         {
             //Put the timer here on the screen and the phase name
             if (timer != null)
             {
-                timer.text = (end - Time.time).ToString();
+                float timeRemaining = (end - Time.time);
+                //Debug.Log("Timer Left: " + timeRemaining);
+                //string currentText = timer.text;
+                timer.SetText("Time Remaining: {0:2}", timeRemaining);
             }
             await Task.Yield();
         }

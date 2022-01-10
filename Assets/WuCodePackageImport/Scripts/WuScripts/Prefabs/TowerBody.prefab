@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 2477463633004637445}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0640161, y: 0.0640161, z: 0.0640161}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 500871464080465560}
   m_RootOrder: 1
@@ -209,7 +209,7 @@ Transform:
   m_GameObject: {fileID: 5944019703304864220}
   m_LocalRotation: {x: -0, y: -0, z: -0.9996153, w: -0.027736032}
   m_LocalPosition: {x: -0.064, y: -0.016, z: 0}
-  m_LocalScale: {x: 0.0640161, y: 0.0640161, z: 0.0640161}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 3934182227108264941}
   m_RootOrder: 0
@@ -429,3 +429,4 @@ MonoBehaviour:
   detection_radius: 0
   attack_range: 0
   type: 4
+  floatingTextPrefab: {fileID: 0}
