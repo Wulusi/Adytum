@@ -4,9 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.Analytics;
+using System;
 
+public enum phase { GATHER, ATTACK };
+public interface IphaseChangeable
+{
+    void phaseChanged(phase phaseChangeTo);
+}
 public class GameManager : MonoBehaviour
 {
+    public phase currentPhase;
     //Current temporary game manager
     public float CurrentHealth, MaxHealth;
 
@@ -24,6 +31,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private LevelManager levelManager;
 
+    public event Action<phase> onPhaseChange; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +43,6 @@ public class GameManager : MonoBehaviour
         CurrentHealth = MaxHealth;
         StartCoroutine(CheckState());
     }
-
     IEnumerator CheckState()
     {
         while (true)
@@ -44,7 +52,12 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
     }
+    public void PhaseChange(phase phaseToChange)
+    {
+        currentPhase = phaseToChange;
 
+        onPhaseChange?.Invoke(phaseToChange);
+    }
     private void CheckGameState()
     {
         if (CurrentHealth <= 0 && GameOver != null)
@@ -52,7 +65,6 @@ public class GameManager : MonoBehaviour
             GameOver.SetActive(true);
         }
     }
-
     private void UpdateUI()
     {
         if (Health != null)
@@ -60,7 +72,6 @@ public class GameManager : MonoBehaviour
             Health.text = CurrentHealth.ToString();
         }
     }
-
     public void ReloadLevel()
     {
         finalSpawnCount = enemySpawner.GetComponent<EnemySpawner>().spawnCount;

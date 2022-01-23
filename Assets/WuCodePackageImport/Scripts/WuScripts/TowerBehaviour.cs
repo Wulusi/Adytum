@@ -12,7 +12,7 @@ public class UnityCustomEvent : UnityEngine.Events.UnityEvent
 
 }
 
-public abstract class TowerBehaviour : MonoBehaviour
+public abstract class TowerBehaviour : MonoBehaviour, IphaseChangeable
 {
     /// <summary>
     /// Reference to the data container for tower parameters
@@ -75,6 +75,9 @@ public abstract class TowerBehaviour : MonoBehaviour
     private bool routineActive;
     private float DebugDrawRadius;
 
+    [SerializeField]
+    private bool isTurretActive;
+
     public virtual void Awake()
     {
         //All current parameter data for tower from data container
@@ -99,12 +102,13 @@ public abstract class TowerBehaviour : MonoBehaviour
         {
             targetDir2D = Quaternion.Euler(0, 0, Random.Range(0, 360));
         }
-    }
 
+        GameHub.GameManager.onPhaseChange += phaseChanged;
+    }
     //Main coroutine loop, runs in while true continously instead of update
     public IEnumerator ActivateTurret()
     {
-        while (true)
+        while (isTurretActive)
         {
             //Cycles through state of the turret to determine what is should currently do
             TurretStates();
@@ -316,6 +320,23 @@ public abstract class TowerBehaviour : MonoBehaviour
         if (towerParams != null)
         {
             DebugDrawRadius = towerParams._detectionRadius;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        GameHub.GameManager.onPhaseChange -= phaseChanged;
+    }
+    public void phaseChanged(phase phaseChangeTo)
+    {
+        if (phaseChangeTo == phase.GATHER)
+        {
+            isTurretActive = false;
+        }
+        else
+        {
+            isTurretActive = true;
+            StartCoroutine(ActivateTurret());
         }
     }
 }

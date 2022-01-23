@@ -56,12 +56,14 @@ public class LevelManager : MonoBehaviour
 
         for (int i = 0; i < gamePhases.Count; i++)
         {
-            GameLevelPhase phase = gamePhases[i];
+            GameLevelPhase phaseActive = gamePhases[i];
 
-            phaseName.text = phase.phaseName.ToString() + " " + phase.currentPhase;
-            phase.setTimer(timer);
+            phaseName.text = phaseActive.phaseName.ToString() + " " + phaseActive.thisPhase;
+            phaseActive.setTimer(timer);
 
-            _myTasks.Add(phase.WaitForTimerToEnd());
+            GameHub.GameManager.PhaseChange(phaseActive.thisPhase);
+
+            _myTasks.Add(phaseActive.WaitForTimerToEnd());
             await gamePhases[i].WaitForTimerToEnd();
         }
 
