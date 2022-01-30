@@ -5,7 +5,7 @@ using UnityEngine;
 public class Archer : Unit
 {
 
-    public GameObject current_target;
+    //public GameObject current_target;
 
     // Start is called before the first frame update
     void Start()

@@ -325,6 +325,7 @@ public abstract class TowerBehaviour : MonoBehaviour, IphaseChangeable
 
     private void OnDestroy()
     {
+        if(GameHub.GameManager != null)
         GameHub.GameManager.onPhaseChange -= phaseChanged;
     }
     public void phaseChanged(phase phaseChangeTo)

@@ -126,7 +126,11 @@ public class ProjectileBehaviour : MonoBehaviour
             //Damage the enemy the projectile just hit
             //other.GetComponent<EnemyBehaviour>().LoseHP(damageValue);
             ShowDamage(damageValue.ToString(), other.transform.root.position);
-            other.GetComponentInParent<Unit>().unit_health -= (int)damageValue;
+
+            if (other.gameObject != null)
+            {
+                other.GetComponentInParent<Unit>().GetDamangeAndCheckHealth((int)damageValue);
+            }
 
             //Tell the task cancellation token to cancel the delay task in KillProjectile because we're going to kill the projectile early
             killCancel.Cancel();

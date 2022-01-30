@@ -38,7 +38,7 @@ public class BaseTrap : MonoBehaviour
     {
         //Only interact with the target if it is an enemy unity type
         Unit TargetUnit = Target.GetComponent<Unit>();
-        if (TargetUnit.type == Unit.unit_type.ENEMY)
+        if (TargetUnit.type == unit_type.ENEMY)
         {
             //Based on the trap apply different logic to the target
             switch (trapType)
