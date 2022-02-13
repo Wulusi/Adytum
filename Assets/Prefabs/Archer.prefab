@@ -133,6 +133,7 @@ MonoBehaviour:
   floatingTextPrefab: {fileID: 2518827367560455120, guid: 9543cc017f6140943bab40b3f7521769, type: 3}
   statemachine: {fileID: 0}
   current_target: {fileID: 0}
+  savedSpeeed: 0
   health_bar: {fileID: 6568241181847004475}
 --- !u!1001 &343235868312193612
 PrefabInstance:
@@ -259,7 +260,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3494883014709881828, guid: 5fac7219fe5c3ff448b9944db992c9eb, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.3
+      value: -0.34
       objectReference: {fileID: 0}
     - target: {fileID: 3494883014709881828, guid: 5fac7219fe5c3ff448b9944db992c9eb, type: 3}
       propertyPath: m_AnchoredPosition.y

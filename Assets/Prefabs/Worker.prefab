@@ -108,6 +108,7 @@ MonoBehaviour:
   floatingTextPrefab: {fileID: 2518827367560455120, guid: 9543cc017f6140943bab40b3f7521769, type: 3}
   statemachine: {fileID: 0}
   current_target: {fileID: 0}
+  savedSpeeed: 0
   health_bar: {fileID: 1329362208008377457}
 --- !u!50 &-3137805597028992580
 Rigidbody2D:
@@ -273,7 +274,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3494883014709881828, guid: 5fac7219fe5c3ff448b9944db992c9eb, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 192
+      value: 193
       objectReference: {fileID: 0}
     - target: {fileID: 3494883014709881828, guid: 5fac7219fe5c3ff448b9944db992c9eb, type: 3}
       propertyPath: m_SizeDelta.y
