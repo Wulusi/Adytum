@@ -149,7 +149,7 @@ public class AttackState : IState
 public class ReturnState : IState
 {
     Unit thisUnit;
-
+    GameObject towncenterRef;
     public ReturnState(Unit unitOwner)
     {
         thisUnit = unitOwner;
@@ -157,7 +157,14 @@ public class ReturnState : IState
     public void Enter()
     {
         thisUnit.currentState = this;
-        //FInd target to base
+
+        if(towncenterRef == null) 
+        {
+            towncenterRef = GameHub.GameManager.getLevelManager.getTownCenter();
+        }
+
+        thisUnit.savedSpeeed = thisUnit.movement_speed;
+        thisUnit.movement_speed *= 2;
         Debug.Log("Finding target to base");
 
         Debug.Log(thisUnit.name + "has entered " + thisUnit.currentState);
@@ -165,12 +172,15 @@ public class ReturnState : IState
 
     public void Execute()
     {
-        //Return back to base when ready
+
+        if(towncenterRef != null)
+        thisUnit.MoveToTarget(towncenterRef);
         Debug.Log("Executing command to go back to base");
     }
 
     public void Exit()
     {
+        thisUnit.movement_speed = thisUnit.savedSpeeed;
         //callback to execute when state is completed'
         Debug.Log("Base back complete doing call back");
     }

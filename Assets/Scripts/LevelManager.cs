@@ -23,6 +23,9 @@ public class LevelManager : MonoBehaviour
     [SerializeField]
     private int maxRounds = 0;
 
+    [SerializeField]
+    private GameObject townCenter;
+
     void Start()
     {
         BeginCountDown();
@@ -44,6 +47,18 @@ public class LevelManager : MonoBehaviour
     public void RemovePhase(GameLevelPhase phaseToRemove)
     {
         gamePhases.Remove(phaseToRemove);
+    }
+
+    public GameObject getTownCenter()
+    {
+        if(townCenter != null)
+        {
+            return townCenter;
+        } else
+        {
+            Debug.LogError("You fogot to assign a towncenter to your level manager script", townCenter);
+            return null;
+        }
     }
 
     async void BeginCountDown()
