@@ -5,8 +5,9 @@ using UnityEngine;
 public class Resource : Unit
 {
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         unit_health = 5;
         movement_speed = 0;
         damage = 0;

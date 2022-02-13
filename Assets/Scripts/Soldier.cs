@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Soldier : Unit
 {
-    public GameObject current_target;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         unit_health = 10;
         movement_speed = 5;
         damage = 5;

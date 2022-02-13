@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour
     public float detection_radius;
     public float attack_range;
     public unit_type type;
+  
 
     private float nearest_target_distance = Mathf.Infinity;
     private float distance;
