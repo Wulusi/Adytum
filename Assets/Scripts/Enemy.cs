@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : Unit
 {
-    //public GameObject current_target;
+    public HealthBar health_bar;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -16,6 +16,7 @@ public class Enemy : Unit
         detection_radius = 50f;
         attack_range = 1f;
         type = unit_type.ENEMY;
+        health_bar.SetMaxHealth(unit_health);
     }
 
     // Update is called once per frame
@@ -32,6 +33,6 @@ public class Enemy : Unit
 
         MoveToTarget(current_target);
         Attack(current_target);
-
+        health_bar.SetHealth(unit_health);
     }
 }

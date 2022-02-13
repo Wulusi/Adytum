@@ -6,6 +6,8 @@ using UnityEngine;
 public class Worker : Unit
 {
 
+    public HealthBar health_bar;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -16,6 +18,7 @@ public class Worker : Unit
         detection_radius = 50f;
         attack_range = 1f;
         type = unit_type.WORKER;
+        health_bar.SetMaxHealth(unit_health);
 
         statemachine = new Statemachine();
         //start the statemachine
@@ -27,6 +30,7 @@ public class Worker : Unit
     void Update()
     {
         statemachine.Update();
+        health_bar.SetHealth(unit_health);
     }
 
     protected override void OnPhaseChanged(phase phase)

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Soldier : Unit
 {
+    public HealthBar health_bar;
 
     // Start is called before the first frame update
     protected override void Start()
@@ -15,6 +16,7 @@ public class Soldier : Unit
         detection_radius = 50f;
         attack_range = 1f;
         type = unit_type.SOLDIER;
+        health_bar.SetMaxHealth(unit_health);
     }
 
     // Update is called once per frame
@@ -26,5 +28,6 @@ public class Soldier : Unit
         }
         MoveToTarget(current_target);
         Attack(current_target);
+        health_bar.SetHealth(unit_health);
     }
 }
