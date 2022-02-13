@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private LevelManager levelManager;
+    public LevelManager getLevelManager => levelManager;
 
     public event Action<phase> onPhaseChange; 
 

@@ -27,7 +27,7 @@ public class Unit : MonoBehaviour
     public GameObject current_target;
 
     public IState currentState;
-
+    public float savedSpeeed;
     protected virtual void Start()
     {
         gameManager = GameHub.GameManager;
