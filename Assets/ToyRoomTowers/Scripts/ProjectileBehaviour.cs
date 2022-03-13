@@ -112,7 +112,10 @@ public class ProjectileBehaviour : MonoBehaviour
         await t;
 
         //Instead of destroy send projectile back into Object Pool
-        this.gameObject.SetActive(false);
+        if (gameObject != null)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     /// <summary>

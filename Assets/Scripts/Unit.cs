@@ -23,6 +23,7 @@ public class Unit : MonoBehaviour
     private float time_stamp = 0f;
 
     [SerializeField] private GameObject floatingTextPrefab;
+    [SerializeField] protected GameObject selectionCursor;
 
     protected GameManager gameManager;
     protected bool ability_in_use = false;
@@ -47,6 +48,11 @@ public class Unit : MonoBehaviour
     protected virtual void Start()
     {
         gameManager = GameHub.GameManager;
+
+        if (selectionCursor != null)
+        {
+            selectionCursor.SetActive(false);
+        }
         //statemachine.ChangeState(initialState);
     }
 
@@ -147,5 +153,13 @@ public class Unit : MonoBehaviour
     protected virtual void OnPhaseChanged(phase phase)
     {
         //Behaviour to change based on phases
+    }
+
+    public virtual void setSelectionCursor(bool _bool)
+    {
+        if (selectionCursor != null)
+        {
+            selectionCursor.SetActive(_bool);
+        }
     }
 }
