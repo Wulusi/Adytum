@@ -8,7 +8,7 @@ public class ProjectileBehaviour : MonoBehaviour
 {
     [SerializeField]
     private GameObject floatingTextPrefab;
-    
+
     [SerializeField]
     private sObj_projectile_Params projectileParams;
 
@@ -74,7 +74,8 @@ public class ProjectileBehaviour : MonoBehaviour
     private void OnEnable()
     {
         GetDataParams();
-        KillProjectile(); //ignore this underline
+        KillCurrentProjectile();
+         //ignore this underline
     }
 
     //Data Getter through Scritable Objects
@@ -85,6 +86,18 @@ public class ProjectileBehaviour : MonoBehaviour
         projectileSpeed = projectileParams._projectileSpeed;
         projectileLifetime = projectileParams._projectileLifetime;
 
+    }
+
+    private async void KillCurrentProjectile()
+    {
+        try
+        {
+            await KillProjectile();
+        } 
+        catch (TaskCanceledException exception)
+        {
+            Debug.Log("Projectile terminated before reaching target, lifetime timer reached" + exception.ToString());
+        }
     }
 
     /// <summary>
