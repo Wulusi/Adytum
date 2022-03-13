@@ -10,7 +10,7 @@ public class Enemy : Unit
     protected override void Start()
     {
         base.Start();
-        unit_health = 10;
+        unit_health = 100;
         movement_speed = 5;
         damage = 5;
         detection_radius = 50f;
@@ -31,8 +31,17 @@ public class Enemy : Unit
             }
         }
 
+        if (is_slow)
+        {
+            movement_speed = 2.5f;
+        } else
+        {
+            movement_speed = 5f;
+        }
+
         MoveToTarget(current_target);
         Attack(current_target);
         health_bar.SetHealth(unit_health);
+        Debug.Log(movement_speed);
     }
 }

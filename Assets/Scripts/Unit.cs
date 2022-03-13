@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour
     public float detection_radius;
     public float attack_range;
     public unit_type type;
+    public bool is_slow = false;
   
 
     private float nearest_target_distance = Mathf.Infinity;
@@ -20,14 +21,29 @@ public class Unit : MonoBehaviour
     //private Vector3 offset_vector = new Vector3(0.2f, -0.2f, 0);
     private float attack_cooldown = 2.0f;
     private float time_stamp = 0f;
+
     [SerializeField] private GameObject floatingTextPrefab;
 
     protected GameManager gameManager;
+    protected bool ability_in_use = false;
+
     public Statemachine statemachine;
     public GameObject current_target;
 
     public IState currentState;
     public float savedSpeeed;
+
+    public  struct SpecialAbility
+    {
+        public string ability_name;
+        public float ability_cooldown;
+        public float ability_range;
+        public float ability_duration;
+        public bool target_afflicted;
+        public float ability_time_stamp;
+        public float ability_duration_time_stamp;
+    }
+
     protected virtual void Start()
     {
         gameManager = GameHub.GameManager;
@@ -38,7 +54,7 @@ public class Unit : MonoBehaviour
     {
         float step = movement_speed * Time.deltaTime;
 
-        if (target != null)
+        if (target != null && !ability_in_use)
         {
             distance = Vector2.Distance(target.GetComponentInParent<Transform>().position, this.transform.position);
             if (distance > attack_range)
@@ -63,11 +79,10 @@ public class Unit : MonoBehaviour
 
     public virtual void Attack(GameObject target)
     {
-        if (target != null)
+        if (target != null && !ability_in_use)
         {
             if (Vector2.Distance(target.GetComponentInParent<Transform>().position, this.transform.position) <= attack_range)
             {
-                Debug.Log("Going to attack");
                 if (time_stamp <= Time.time)
                 {
                     ShowDamage(damage.ToString(), target.GetComponentInParent<Transform>().position);
