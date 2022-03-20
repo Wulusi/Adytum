@@ -24,6 +24,7 @@ public class Worker : Unit
         //start the statemachine
         statemachine.ChangeState(new FindTargetState(this));
         gameManager.onPhaseChange += OnPhaseChanged;
+        gameManager.onStateChanged += OnStateChanged;
     }
 
     // Update is called once per frame
@@ -43,6 +44,18 @@ public class Worker : Unit
         if (phase == phase.GATHER)
         {
             statemachine.ChangeState(new FindTargetState(this));
+        }
+    }
+
+    protected override void OnStateChanged()
+    {
+        if (isSelected)
+        {
+            statemachine.ChangeState(new ExecuteMoveCommand(this));
+        }
+        else
+        {
+            return;
         }
     }
 
@@ -75,6 +88,42 @@ public class MoveToTargetState : IState
         if (this.thisUnit.canAttack())
         {
             thisUnit.statemachine.ChangeState(new AttackState(this.thisUnit));
+        }
+    }
+
+    public void Exit()
+    {
+
+    }
+}
+
+public class ExecuteMoveCommand : IState
+{
+
+    Unit thisUnit;
+    public ExecuteMoveCommand(Unit unitOwner)
+    {
+        thisUnit = unitOwner;
+    }
+    public void Enter()
+    {
+        thisUnit.currentState = this;
+
+        Debug.Log(thisUnit.name + "has entered " + thisUnit.currentState);      
+    }
+
+    public void Execute()
+    {
+        Vector2 movePosition = GameHub.GameManager.mouseSelectedPosition;
+
+        if (movePosition != null)
+        {
+            thisUnit.MoveToPosition(movePosition);
+        }
+
+        if (thisUnit.hasReachedDestination())
+        {
+            this.thisUnit.statemachine.ChangeState(new FindTargetState(thisUnit));
         }
     }
 
@@ -162,7 +211,7 @@ public class ReturnState : IState
     {
         thisUnit.currentState = this;
 
-        if(towncenterRef == null) 
+        if (towncenterRef == null)
         {
             towncenterRef = GameHub.GameManager.getLevelManager.getTownCenter();
         }
@@ -177,8 +226,8 @@ public class ReturnState : IState
     public void Execute()
     {
 
-        if(towncenterRef != null)
-        thisUnit.MoveToTarget(towncenterRef);
+        if (towncenterRef != null)
+            thisUnit.MoveToTarget(towncenterRef);
         Debug.Log("Executing command to go back to base");
     }
 

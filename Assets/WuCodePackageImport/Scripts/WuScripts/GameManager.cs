@@ -32,8 +32,13 @@ public class GameManager : MonoBehaviour
     private LevelManager levelManager;
     public LevelManager getLevelManager => levelManager;
 
-    public event Action<phase> onPhaseChange; 
+    public event Action<phase> onPhaseChange;
 
+    public event Action onStateChanged;
+
+    [SerializeField]
+    private Vector3 selectedCursorPosition;
+    public Vector3 mouseSelectedPosition => selectedCursorPosition;
     // Start is called before the first frame update
     void Start()
     {
@@ -85,5 +90,11 @@ public class GameManager : MonoBehaviour
             );
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void setMousePositionVector(Vector3 selectedPosition)
+    {
+        selectedCursorPosition = selectedPosition;
+        onStateChanged?.Invoke();
     }
 }

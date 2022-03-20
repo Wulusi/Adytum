@@ -13,10 +13,11 @@ public class Unit : MonoBehaviour
     public float attack_range;
     public unit_type type;
     public bool is_slow = false;
-  
 
     private float nearest_target_distance = Mathf.Infinity;
     private float distance;
+
+    [SerializeField]
     protected GameObject target;
     //private Vector3 offset_vector = new Vector3(0.2f, -0.2f, 0);
     private float attack_cooldown = 2.0f;
@@ -34,7 +35,10 @@ public class Unit : MonoBehaviour
     public IState currentState;
     public float savedSpeeed;
 
-    public  struct SpecialAbility
+    protected bool isSelected = false;
+
+    protected Vector2 destinationCoordinates;
+    public struct SpecialAbility
     {
         public string ability_name;
         public float ability_cooldown;
@@ -83,6 +87,33 @@ public class Unit : MonoBehaviour
         }
     }
 
+
+    public virtual void MoveToPosition(Vector3 targetPosition)
+    {
+        float step = movement_speed * Time.deltaTime;
+
+        if (targetPosition != null)
+        {
+            destinationCoordinates = targetPosition;
+            distance = Vector2.Distance(targetPosition, this.transform.position);
+            if (distance > 0.5f)
+            {
+                this.transform.position = Vector2.MoveTowards(this.transform.position, targetPosition, step);
+            }
+        }
+    }
+
+    public bool hasReachedDestination()
+    {
+        distance = Vector2.Distance(destinationCoordinates, this.transform.position);
+        if (distance > 0.5f)
+        {
+            return false;
+        } else
+        {
+            return true;
+        }
+    }
     public virtual void Attack(GameObject target)
     {
         if (target != null && !ability_in_use)
@@ -155,11 +186,30 @@ public class Unit : MonoBehaviour
         //Behaviour to change based on phases
     }
 
+    protected virtual void OnStateChanged()
+    {
+        //Behaviour to change based on state change for the unit such as cursor commands
+    }
+
     public virtual void setSelectionCursor(bool _bool)
     {
         if (selectionCursor != null)
         {
             selectionCursor.SetActive(_bool);
         }
+
+        if (_bool)
+        {
+            isSelected = true;
+        }
+        else
+        {
+            isSelected = false;
+        }
+    }
+    
+    public bool isThisUnitSelected()
+    {
+        return isSelected;
     }
 }

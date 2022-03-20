@@ -33,6 +33,17 @@ public class GlobalSelection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //For movement selection
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                GameHub.GameManager.setMousePositionVector(hit.point);  
+            }
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             p1 = Input.mousePosition;
