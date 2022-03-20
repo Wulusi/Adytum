@@ -13,7 +13,7 @@ public class Archer : Unit
     {
         base.Start();
         unit_health = 100;
-        movement_speed = 3;
+        movement_speed = 5;
         damage = 2;
         detection_radius = 50f;
         attack_range = 4f;
@@ -24,7 +24,7 @@ public class Archer : Unit
         //Special Ability set up
         special_ability.ability_name = "Achilles Heel";
         special_ability.ability_cooldown = 5.0f;
-        special_ability.ability_range = 100.0f;
+        special_ability.ability_range = 50.0f;
         special_ability.ability_duration = 2.0f;
         special_ability.target_afflicted = false;
         special_ability.ability_time_stamp = 0.0f;
@@ -51,9 +51,7 @@ public class Archer : Unit
     {
         if (current_target != null)
         {
-            float speed_percentage = 0.5f;
-
-
+            
             // If the ability is off cooldown and the target is in range, then use the ability
             if (special_ability.ability_time_stamp <= Time.time &&
                 current_target != null &&

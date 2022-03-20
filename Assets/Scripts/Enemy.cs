@@ -42,6 +42,6 @@ public class Enemy : Unit
         MoveToTarget(current_target);
         Attack(current_target);
         health_bar.SetHealth(unit_health);
-        Debug.Log(movement_speed);
+
     }
 }

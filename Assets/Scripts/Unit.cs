@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour
 
     private float nearest_target_distance = Mathf.Infinity;
     private float distance;
-    private GameObject target;
+    protected GameObject target;
     //private Vector3 offset_vector = new Vector3(0.2f, -0.2f, 0);
     private float attack_cooldown = 2.0f;
     private float time_stamp = 0f;
