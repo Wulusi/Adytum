@@ -10,6 +10,9 @@ public class GlobalSelection : MonoBehaviour
     [SerializeField]
     private List<GameObject> selectedObjs = new List<GameObject>();
 
+    [SerializeField]
+    private GameObject selectionCursorPrefab;
+
     RaycastHit hit;
 
     bool dragSelect = false;
@@ -40,7 +43,8 @@ public class GlobalSelection : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
-                GameHub.GameManager.setMousePositionVector(hit.point);  
+                GameHub.GameManager.setMousePositionVector(hit.point);
+                GameHub.ObjectPooler.SpawnFromPool(selectionCursorPrefab.name, hit.point, Quaternion.identity);
             }
         }
 

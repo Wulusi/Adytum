@@ -49,7 +49,7 @@ public class Worker : Unit
 
     protected override void OnStateChanged()
     {
-        if (isSelected)
+        if (isSelected && GameHub.GameManager.currentPhase == phase.GATHER)
         {
             statemachine.ChangeState(new ExecuteMoveCommand(this));
         }
